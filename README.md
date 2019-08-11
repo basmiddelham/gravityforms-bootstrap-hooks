@@ -2,7 +2,7 @@
 Actions &amp; filters for using Gravityforms in your Bootstrap enabled theme.
 
 ### Features:
-- Disable Gravity Forms default CSS.
+- Disable Gravity Forms CSS and enable HTML5 by default.
 - Lots of filters to add Bootstrap classes to fields
 - Enable the shortcode preview
 - Style Gravity Forms preview page
