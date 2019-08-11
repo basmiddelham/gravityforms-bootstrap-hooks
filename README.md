@@ -11,6 +11,6 @@ Actions &amp; filters for using Gravityforms in your Bootstrap enabled theme.
 - Place Gravityforms jQuery In Footer
 
 ### Usage
-Please use these hooks together with [Gravity Forms Bootstrap styling](https://github.com/MoshCat/bootstrap-gravityforms) for full functionality.
+Please use these hooks together with [Gravity Forms Bootstrap styling](https://github.com/MoshCat/gravityforms-bootstrap-styling) for full functionality.
 
 Test your styling using this Gravity Forms [kitchensink form](https://github.com/MoshCat/gravityforms-kitchensink).
