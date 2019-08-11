@@ -11,8 +11,9 @@ namespace App;
 
 if (class_exists('GFCommon')) {
     /**
-     * Disable Gravity Forms CSS
+     * Disable Gravity Forms CSS and enable HTML5
      */
+    add_filter('pre_option_rg_gforms_enable_html5', '__return_true');
     add_filter('pre_option_rg_gforms_disable_css', '__return_true');
 
     /**
