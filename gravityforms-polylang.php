@@ -4,7 +4,7 @@
  * Gravity Forms + Polylang
  *
  * Add form titles, descriptions, field labels, etc, to Polylang string translations
- * Based: https://github.com/pdme/gravity-forms-polylang
+ * Based on https://github.com/pdme/gravity-forms-polylang
  */
 
 if (!class_exists('GF_PLL')) :
