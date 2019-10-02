@@ -22,7 +22,18 @@ if (class_exists('GFCommon')) {
     add_filter("gform_field_content", function ($content, $field, $value, $lead_id, $form_id) {
 
         // Add .form-control to most inputs
-        $exclude_formcontrol = ['hidden', 'post_image', 'email', 'fileupload', 'list', 'multiselect', 'select', 'html', 'address', 'post_category'];
+        $exclude_formcontrol = [
+            'hidden',
+            'post_image',
+            'email',
+            'fileupload',
+            'list',
+            'multiselect',
+            'select',
+            'html',
+            'address',
+            'post_category'
+        ];
         if (!in_array($field["type"], $exclude_formcontrol)) {
             $content = str_replace('class=\'small', 'class=\'form-control form-control-sm', $content);
             $content = str_replace('class=\'medium', 'class=\'form-control', $content);
