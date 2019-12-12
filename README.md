@@ -8,7 +8,6 @@ Actions &amp; filters for using Gravityforms in your Bootstrap enabled theme.
 - Style Gravity Forms preview page.
 - Hide the default spinner to replace with custom.
 - Grant Editors access to Gravityforms.
-- Place Gravityforms jQuery In Footer.
 - [Polylang](https://wordpress.org/plugins/polylang/) support.
 
 ### Usage
