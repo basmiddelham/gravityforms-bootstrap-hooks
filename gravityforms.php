@@ -207,4 +207,17 @@ if (class_exists('GFCommon')) {
         $role->add_cap('gform_full_access');
         // $role->remove_cap('gform_full_access');
     });
+
+    /**
+     * Place Gravityforms jQuery In Footer
+     */
+    add_filter('gform_cdata_open', function ($content = '') {
+        $content = 'document.addEventListener("DOMContentLoaded", function() { ';
+        return $content;
+    });
+    add_filter('gform_cdata_close', function ($content = '') {
+        $content = ' }, false);';
+        return $content;
+    });
+    add_filter('gform_init_scripts_footer', '__return_true');
 }
