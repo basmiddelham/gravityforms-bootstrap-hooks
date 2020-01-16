@@ -1,9 +1,9 @@
 # Gravity Forms Bootstrap Hooks
 Actions &amp; filters for using Gravityforms in your Bootstrap enabled theme.
 
-__Contributors:__ [Bas Middelham](https://github.com/moshcat)
-__Requires:__ WordPress 5, Gravity Forms 2.4
-__Tested up to:__ WordPress 5, Gravity Forms 2.4.10
+__Contributors:__ [Bas Middelham](https://github.com/moshcat)  
+__Requires:__ WordPress 5, Gravity Forms 2.4  
+__Tested up to:__ WordPress 5, Gravity Forms 2.4.10  
 
 ### Features:
 - Disable Gravity Forms CSS and enable HTML5 by default.
