@@ -131,21 +131,21 @@ if ( class_exists( 'GFCommon' ) ) {
 			// Fileupload. Add class 'preview' to the field to enable the image preview
 			if ( 'fileupload' === $field['type'] || 'post_image' === $field['type'] ) {
 				if ( ! is_admin() && false === $field["multipleFiles"] ) {
-					$required    = ( $field['isRequired'] ) ? '<span class="gfield_required">*</span>' : '';
-					$max_upload  = ( $field['maxFileSize'] ) ? ( $field['maxFileSize'] * 1048576 ) : 67108864;
-					$preview     = ( $field['cssClass'] === 'preview' ) ? '<img id="output_' . $form_id . '_' . $field['id'] . '">' : '';
-					$content = '<label class="gfield_label">' . $field['label'] . $required . '</label>';
-					$content .= '<div class="ginput_container ginput_container_fileupload">';
-					$content .= '<div class="custom-file">';
-					$content .= '<input type="hidden" name="MAX_FILE_SIZE" value="' . $max_upload . '">';
-					$content .= '<input name="input_' . $field['id'] . '" id="input_' . $form_id . '_' . $field['id'] . '" type="file" class="custom-file-input" aria-describedby="validation_message_' . $form_id . '_' . $field['id'] . ' live_validation_message_' . $form_id . '_' . $field['id'] . ' extensions_message_' . $form_id . '_' . $field['id'] . '" onchange="javascript:gformValidateFileSize( this, ' . $max_upload . ' );">';
-					$content .= '<label class="custom-file-label" for="input_' . $form_id . '_' . $field['id'] . '">' . $field['label'] . '</label>';
-					$content .= '<span id="extensions_message_' . $form_id . '_' . $field['id'] . '" class="screen-reader-text"></span>';
-					$content .= '<div class="validation_message" id="live_validation_message_' . $form_id . '_' . $field['id'] . '"></div>';
-					$content .= '</div>';
-					$content .= $preview;
-					$content .= '</div>';
-					$content .= '<script>
+					$required   = ( $field['isRequired'] ) ? '<span class="gfield_required">*</span>' : '';
+					$max_upload = ( $field['maxFileSize'] ) ? ( $field['maxFileSize'] * 1048576 ) : 67108864;
+					$preview    = ( $field['cssClass'] === 'preview' ) ? '<img id="output_' . $form_id . '_' . $field['id'] . '">' : '';
+					$content    = '<label class="gfield_label">' . $field['label'] . $required . '</label>';
+					$content    .= '<div class="ginput_container ginput_container_fileupload">';
+					$content    .= '<div class="custom-file">';
+					$content    .= '<input type="hidden" name="MAX_FILE_SIZE" value="' . $max_upload . '">';
+					$content    .= '<input name="input_' . $field['id'] . '" id="input_' . $form_id . '_' . $field['id'] . '" type="file" class="custom-file-input" aria-describedby="validation_message_' . $form_id . '_' . $field['id'] . ' live_validation_message_' . $form_id . '_' . $field['id'] . ' extensions_message_' . $form_id . '_' . $field['id'] . '" onchange="javascript:gformValidateFileSize( this, ' . $max_upload . ' );">';
+					$content    .= '<label class="custom-file-label" for="input_' . $form_id . '_' . $field['id'] . '">' . $field['label'] . '</label>';
+					$content    .= '<span id="extensions_message_' . $form_id . '_' . $field['id'] . '" class="screen-reader-text"></span>';
+					$content    .= '<div class="validation_message" id="live_validation_message_' . $form_id . '_' . $field['id'] . '"></div>';
+					$content    .= '</div>';
+					$content    .= $preview;
+					$content    .= '</div>';
+					$content    .= '<script>
 					document.getElementById(\'input_' . $form_id . '_' . $field['id'] . '\').addEventListener(\'change\', function (e) {
 						// Show filename after upload
 						var fileName = e.target.files[0].name;
