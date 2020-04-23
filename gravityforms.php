@@ -14,6 +14,19 @@ namespace App;
 if ( class_exists( 'GFCommon' ) ) {
 
 	/**
+	 * GF: Iban validation
+	 */
+	add_filter( 'gform_field_validation', function( $result, $value, $form, $field ) {
+		if ( $field->cssClass === 'verify-iban' ) { // phpcs:ignore
+			if ( ! preg_match( '/[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}/', $value ) ) {
+				$result['is_valid'] = false;
+				$result['message']  = 'Invalid IBAN';
+			}
+		}
+		return $result;
+	}, 10, 4 );
+
+	/**
 	 * Disable Gravity Forms CSS.
 	 */
 	add_filter( 'pre_option_rg_gforms_disable_css', '__return_true' );
@@ -38,7 +51,7 @@ if ( class_exists( 'GFCommon' ) ) {
 	 */
 	add_filter(
 		'gform_preview_styles', function ( $styles, $form ) {
-			wp_register_style( 'gf_styles', asset_path( 'styles/main.css' ), array(), '1.0' );
+			wp_register_style( 'gf_styles', get_stylesheet_directory_uri() . '/dist/css/style.min.css', array(), '1.0' );
 			$styles = array( 'gf_styles' );
 			return $styles;
 		}, 10, 2
@@ -70,6 +83,16 @@ if ( class_exists( 'GFCommon' ) ) {
 		}
 	);
 	add_filter( 'gform_init_scripts_footer', '__return_true' );
+
+	/**
+	 * Add .form-group to .gfield.
+	 */
+	add_filter(
+		'gform_field_css_class', function ( $classes, $field, $form ) {
+			$classes .= ' form-group';
+			return $classes;
+		}, 10, 3
+	);
 
 	/**
 	 * Modify the fields classes to Bootstrap classes.
@@ -119,10 +142,44 @@ if ( class_exists( 'GFCommon' ) ) {
 				$content = str_replace( '<input id', '<input class=\'form-control form-control-sm\' id', $content );
 				$content = str_replace( '<label for', '<label class=\'custom-control-label\' for', $content );
 			}
-			// Fileupload.
+			// Fileupload. Add class 'preview' to the field to enable the image preview
 			if ( 'fileupload' === $field['type'] || 'post_image' === $field['type'] ) {
-				$content = str_replace( 'class=\'button', 'class=\'btn btn-primary', $content );
-				$content = str_replace( 'class=\'medium', 'class=\'form-control-file', $content );
+				if ( ! is_admin() && false === $field["multipleFiles"] ) {
+					$required    = ( $field['isRequired'] ) ? '<span class="gfield_required">*</span>' : '';
+					$max_upload  = ( $field['maxFileSize'] ) ? ( $field['maxFileSize'] * 1048576 ) : 67108864;
+					$preview     = ( $field['cssClass'] === 'preview' ) ? '<img id="output_' . $form_id . '_' . $field['id'] . '">' : '';
+					$content = '<label class="gfield_label">' . $field['label'] . $required . '</label>';
+					$content .= '<div class="ginput_container ginput_container_fileupload">';
+					$content .= '<div class="custom-file">';
+					$content .= '<input type="hidden" name="MAX_FILE_SIZE" value="' . $max_upload . '">';
+					$content .= '<input name="input_' . $field['id'] . '" id="input_' . $form_id . '_' . $field['id'] . '" type="file" class="custom-file-input" aria-describedby="validation_message_' . $form_id . '_' . $field['id'] . ' live_validation_message_' . $form_id . '_' . $field['id'] . ' extensions_message_' . $form_id . '_' . $field['id'] . '" onchange="javascript:gformValidateFileSize( this, ' . $max_upload . ' );">';
+					$content .= '<label class="custom-file-label" for="input_' . $form_id . '_' . $field['id'] . '">' . $field['label'] . '</label>';
+					$content .= '<span id="extensions_message_' . $form_id . '_' . $field['id'] . '" class="screen-reader-text"></span>';
+					$content .= '<div class="validation_message" id="live_validation_message_' . $form_id . '_' . $field['id'] . '"></div>';
+					$content .= '</div>';
+					$content .= $preview;
+					$content .= '</div>';
+					$content .= '<script>
+					document.getElementById(\'input_' . $form_id . '_' . $field['id'] . '\').addEventListener(\'change\', function (e) {
+						// Show filename after upload
+						var fileName = e.target.files[0].name;
+						var nextSibling = e.target.nextElementSibling;
+						nextSibling.innerText = fileName;
+						// Create preview
+						var input = e.target;
+						var reader = new FileReader();
+						reader.onload = function () {
+							var dataURL = reader.result;
+							var output = document.getElementById(\'output_' . $form_id . '_' . $field['id'] . '\');
+							output.src = dataURL;
+							output.className = \'preview_img\';
+						};
+						reader.readAsDataURL(input.files[0]);
+					})
+					</script>';
+				} else {
+					$content = str_replace( 'class=\'button', 'class=\'btn btn-primary btn-sm', $content );
+				}
 			}
 			// Date & Time.
 			if ( 'date' === $field['type'] || 'time' === $field['type'] ) {
@@ -136,7 +193,11 @@ if ( class_exists( 'GFCommon' ) ) {
 				$content = str_replace( 'class=\'ginput_left', 'class=\'ginput_left col-6', $content );
 				$content = str_replace( 'class=\'ginput_right', 'class=\'ginput_right col-6', $content );
 				$content = str_replace( 'class=\'ginput_full', 'class=\'ginput_full col-12', $content );
-				// Email.
+				// Password.
+				if ( 'password' === $field['type'] ) {
+					$content = str_replace( 'type=\'password\'', 'type="password" class=\'form-control\' ', $content );
+				}
+				// Email
 				if ( 'email' === $field['type'] ) {
 					$content = str_replace( '<input class=\'', '<input class=\'form-control\' ', $content );
 					$content = str_replace( 'class=\'small', 'class=\'small form-control form-control-sm', $content );
@@ -164,16 +225,6 @@ if ( class_exists( 'GFCommon' ) ) {
 	);
 
 	/**
-	 * Add .form-group to .gfield.
-	 */
-	add_filter(
-		'gform_field_css_class', function ( $classes, $field, $form ) {
-			$classes .= ' form-group';
-			return $classes;
-		}, 10, 3
-	);
-
-	/**
 	 * Change the main validation message.
 	 */
 	add_filter(
@@ -188,7 +239,7 @@ if ( class_exists( 'GFCommon' ) ) {
 	add_filter(
 		'gform_submit_button',
 		function ( $button, $form ) {
-			$button = str_replace( 'class=\'gform_button', 'class=\'gform_button btn btn-primary', $button );
+			$button = str_replace( 'class=\'gform_button', 'class=\'gform_button btn btn-outline-primary btn-block', $button );
 			return $button;
 		}, 10, 2
 	);
