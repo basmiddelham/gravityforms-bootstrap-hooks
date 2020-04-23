@@ -128,7 +128,10 @@ if ( class_exists( 'GFCommon' ) ) {
 				$content = str_replace( '<input id', '<input class=\'form-control form-control-sm\' id', $content );
 				$content = str_replace( '<label for', '<label class=\'custom-control-label\' for', $content );
 			}
-			// Fileupload. Add class 'preview' to the field to enable the image preview
+			// Fileupload.
+			// Field is rewritten because Bootstrap requires .custom-file to span both .custom-file-input and .custom-file-label
+			// Javascript is added to show filename after upload.
+			// Add class 'preview' to the field to enable the image preview
 			if ( 'fileupload' === $field['type'] || 'post_image' === $field['type'] ) {
 				if ( ! is_admin() && false === $field["multipleFiles"] ) {
 					$required   = ( $field['isRequired'] ) ? '<span class="gfield_required">*</span>' : '';
