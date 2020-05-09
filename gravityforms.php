@@ -12,20 +12,6 @@
 namespace App;
 
 if (class_exists('GFCommon')) {
-
-    /**
-     * GF: Iban validation
-     */
-    add_filter('gform_field_validation', function ($result, $value, $form, $field) {
-        if ($field->cssClass === 'verify-iban') { // phpcs:ignore
-            if (!preg_match('/[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}/', $value)) {
-                $result['is_valid'] = false;
-                $result['message'] = 'Invalid IBAN';
-            }
-        }
-        return $result;
-    }, 10, 4);
-
     /**
      * Disable Gravity Forms CSS.
      */
@@ -103,12 +89,9 @@ if (class_exists('GFCommon')) {
             'address',
             'post_image',
             'post_category',
-            // 'post_tags',
             'product',
             'option',
         );
-
-        $content = str_replace('gfield_description', 'gfield_description small', $content);
 
         // Add .form-control to most inputs except those listed
         if (!in_array($field['type'], $exclude_formcontrol, true)) {
@@ -116,6 +99,9 @@ if (class_exists('GFCommon')) {
             $content = str_replace('class=\'medium', 'class=\'form-control', $content);
             $content = str_replace('class=\'large', 'class=\'form-control form-control-lg', $content);
         }
+
+        // Descriptions
+        $content = str_replace('gfield_description', 'gfield_description small', $content);
 
         // Number fields.
         $content = str_replace('ginput_quantity', 'form-control', $content);
