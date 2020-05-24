@@ -231,7 +231,7 @@ if (class_exists('GFCommon')) {
 
     /** Change classes on Submit button. */
     add_filter('gform_submit_button', function ($button, $form) {
-        $button = str_replace('class=\'gform_button', 'class=\'gform_button btn btn-outline-primary', $button);
+        $button = str_replace('class=\'gform_button', 'class=\'gform_button btn btn-primary', $button);
         return $button;
     }, 10, 2);
 
