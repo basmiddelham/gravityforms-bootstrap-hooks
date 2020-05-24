@@ -9,49 +9,33 @@
  * @link        https://github.com/MoshCat/gravityforms-bootstrap-hooks
  */
 
-namespace App;
-
 if (class_exists('GFCommon')) {
-    /**
-     * Disable Gravity Forms CSS.
-     */
+    /** Disable Gravity Forms CSS. */
     add_filter('pre_option_rg_gforms_disable_css', '__return_true');
 
-    /**
-     * Enable HTML5.
-     */
+    /** Enable HTML5. */
     add_filter('pre_option_rg_gforms_enable_html5', '__return_true');
 
-    /**
-     * Enable the shortcode preview
-     */
+    /** Enable the shortcode preview */
     add_filter('gform_shortcode_preview_disabled', '__return_false');
 
-    /**
-     * Disable Gravity Forms CSS in Admin and allow custom styles in shortcode preview.
-     */
+    /** Disable Gravity Forms CSS in Admin and allow custom styles in shortcode preview. */
     remove_filter('tiny_mce_before_init', array('GFForms', 'modify_tiny_mce_4'), 20);
 
-    /**
-     * Style Gravity Forms preview pages.
-     */
+    /** Style Gravity Forms preview pages. */
     add_filter('gform_preview_styles', function ($styles, $form) {
         wp_register_style('gf_styles', get_stylesheet_directory_uri() . '/dist/css/style.min.css', array(), '1.0');
         $styles = array('gf_styles');
         return $styles;
     }, 10, 2);
 
-    /**
-     * Grant Editors access to Gravityforms.
-     */
-    add_action('admin_init', function () {
-        $role = get_role('editor');
-        $role->add_cap('gform_full_access'); // To disable use: $role->remove_cap.
-    });
+    /** Grant Editors access to Gravityforms. */
+    // add_action('admin_init', function () {
+    //     $role = get_role('editor');
+    //     $role->add_cap('gform_full_access'); // To disable use: $role->remove_cap.
+    // });
 
-    /**
-     * Place Gravityforms jQuery In Footer.
-     */
+    /** Place Gravityforms jQuery In Footer. */
     add_filter('gform_cdata_open', function ($content = '') {
         $content = 'document.addEventListener("DOMContentLoaded", function() { ';
         return $content;
@@ -62,17 +46,13 @@ if (class_exists('GFCommon')) {
     });
     add_filter('gform_init_scripts_footer', '__return_true');
 
-    /**
-     * Add .form-group to .gfield.
-     */
+    /** Add .form-group to .gfield. */
     add_filter('gform_field_css_class', function ($classes, $field, $form) {
         $classes .= ' form-group';
         return $classes;
     }, 10, 3);
 
-    /**
-     * Modify the fields classes to Bootstrap classes.
-     */
+    /** Modify the fields classes to Bootstrap classes. */
     add_filter('gform_field_content', function ($content, $field, $value, $lead_id, $form_id) {
         // Exclude field types for later customisation
         $exclude_formcontrol = array(
@@ -244,40 +224,30 @@ if (class_exists('GFCommon')) {
 
     }, 10, 5);
 
-    /**
-     * Change the main validation message.
-     */
+    /** Change the main validation message. */
     add_filter('gform_validation_message', function ($message, $form) {
         return '<div class=\'validation_error alert alert-danger\'>' . esc_html__('There was a problem with your submission.', 'gravityforms') . ' ' . esc_html__('Errors have been highlighted below.', 'gravityforms') . '</div>'; // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
     }, 10, 2);
 
-    /**
-     * Change classes on Submit button.
-     */
+    /** Change classes on Submit button. */
     add_filter('gform_submit_button', function ($button, $form) {
         $button = str_replace('class=\'gform_button', 'class=\'gform_button btn btn-outline-primary', $button);
         return $button;
     }, 10, 2);
 
-    /**
-     * Change classes on Next button.
-     */
+    /** Change classes on Next button. */
     add_filter('gform_next_button', function ($button, $form) {
         $button = str_replace('class=\'gform_next_button', 'class=\'gform_next_button btn btn-secondary', $button);
         return $button;
     }, 10, 2);
 
-    /**
-     * Change classes on Previous button.
-     */
+    /** Change classes on Previous button. */
     add_filter('gform_previous_button', function ($button, $form) {
         $button = str_replace('class=\'gform_previous_button', 'class=\'gform_previous_button btn btn-outline-secondary', $button);
         return $button;
     }, 10, 2);
 
-    /**
-     * Change classes on progressbars
-     */
+    /** Change classes on progressbars */
     add_filter('gform_progress_bar', function ($progress_bar, $form, $confirmation_message) {
         $progress_bar = str_replace('progress_wrapper', 'progress_wrapper form-group', $progress_bar);
         $progress_bar = str_replace('gf_progressbar', 'gf_progressbar progress', $progress_bar);
@@ -290,9 +260,7 @@ if (class_exists('GFCommon')) {
         return $progress_bar;
     }, 10, 3);
 
-    /**
-     * Hide Gravityforms Spinner.
-     */
+    /** Hide Gravityforms Spinner. */
     add_filter('gform_ajax_spinner_url', function () {
         return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
     });
