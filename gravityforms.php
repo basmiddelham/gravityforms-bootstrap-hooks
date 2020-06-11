@@ -24,7 +24,7 @@ if (class_exists('GFCommon')) {
 
     /** Style Gravity Forms preview pages. */
     add_filter('gform_preview_styles', function ($styles, $form) {
-        wp_register_style('gf_styles', get_stylesheet_directory_uri() . '/dist/css/style.min.css', array(), '1.0');
+        wp_register_style('gf_styles', get_stylesheet_directory_uri() . '/dist/css/styles.css', array(), '1.0');
         $styles = array('gf_styles');
         return $styles;
     }, 10, 2);
