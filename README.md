@@ -19,4 +19,4 @@ Please use these hooks together with [Gravity Forms Bootstrap styling](https://g
 
 Test your styling using this Gravity Forms [kitchensink form](https://github.com/MoshCat/gravityforms-kitchensink).
 
-Check out the [demo](https://sagestarter.middelham.nl/gravityforms/).
+Check out the [demo](https://demo.middelham.nl/gravity-forms-kitchensink/).
