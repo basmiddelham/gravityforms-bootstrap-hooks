@@ -2,7 +2,7 @@
 /**
  * Gravity Forms Bootstrap Hooks
  *
- * Actions & filters for using Gravityforms in your Bootstrap enabled theme.
+ * Actions & filters for using Gravityforms in your Bootstrap 5 enabled theme.
  *
  * @package     WordPress
  * @subpackage  GravityForms
@@ -10,6 +10,7 @@
  */
 
 if (class_exists('GFCommon')) {
+ 
     /** Disable Gravity Forms CSS. */
     add_filter('pre_option_rg_gforms_disable_css', '__return_true');
 
@@ -19,7 +20,7 @@ if (class_exists('GFCommon')) {
     /** Enable the shortcode preview */
     add_filter('gform_shortcode_preview_disabled', '__return_false');
 
-    /** Disable Gravity Forms CSS in Admin and allow custom styles in shortcode preview. */
+    /** Disable Gravity Forms CSS in Admin and allow frontend styles in shortcode preview. */
     remove_filter('tiny_mce_before_init', array('GFForms', 'modify_tiny_mce_4'), 20);
 
     /** Style Gravity Forms preview pages. */
@@ -35,26 +36,18 @@ if (class_exists('GFCommon')) {
     //     $role->add_cap('gform_full_access'); // To disable use: $role->remove_cap.
     // });
 
-    /** Place Gravityforms jQuery In Footer. */
-    add_filter('gform_cdata_open', function ($content = '') {
-        $content = 'document.addEventListener("DOMContentLoaded", function() { ';
-        return $content;
-    });
-    add_filter('gform_cdata_close', function ($content = '') {
-        $content = ' }, false);';
-        return $content;
-    });
-    add_filter('gform_init_scripts_footer', '__return_true');
-
-    /** Add .form-group to .gfield. */
-    add_filter('gform_field_css_class', function ($classes, $field, $form) {
-        $classes .= ' form-group';
-        return $classes;
-    }, 10, 3);
+    // Autocomplete Attribute
+    add_filter( 'gform_field_content', function ( $field_content, $field ) {
+        if ( $field->type == 'email' ) {
+            return str_replace( 'type=', "autocomplete='email' type=", $field_content );
+        }
+        return $field_content;
+    }, 10, 2 );
 
     /** Modify the fields classes to Bootstrap classes. */
     add_filter('gform_field_content', function ($content, $field, $value, $lead_id, $form_id) {
-        // Exclude field types for later customisation
+
+        // Exclude these fieldtypes for later customisation
         $exclude_formcontrol = array(
             'hidden',
             'email',
@@ -73,31 +66,32 @@ if (class_exists('GFCommon')) {
             'option',
         );
 
-        // Add .form-control to most inputs except those listed
+        // Add .form-control to most inputs except those listed 
         if (!in_array($field['type'], $exclude_formcontrol, true)) {
             $content = str_replace('class=\'small', 'class=\'form-control form-control-sm', $content);
             $content = str_replace('class=\'medium', 'class=\'form-control', $content);
             $content = str_replace('class=\'large', 'class=\'form-control form-control-lg', $content);
         }
 
+        // Labels 
+        $content = str_replace('gfield_label', 'form-label gfield_label', $content);
+
         // Descriptions
-        $content = str_replace('gfield_description', 'gfield_description small', $content);
+        $content = str_replace('class=\'gfield_description', 'class=\'small text-muted gfield_description', $content);
+
+        // Sections
+        $content = str_replace('class=\'gsection_description', 'class=\'gsection_description small text-muted', $content);
 
         // Number fields.
-        $content = str_replace('ginput_quantity', 'form-control', $content);
-        $content = str_replace('ginput_amount', 'form-control', $content);
+        $content = str_replace('ginput_quantity ', 'form-control ginput_quantity ', $content);
+        $content = str_replace('ginput_amount ', 'form-control ginput_amount ', $content);
 
         // Select fields.
-        $content = str_replace('gfield_select', 'custom-select ', $content);
+        $content = str_replace('gfield_select', 'form-select', $content);
         if ('select' === $field['type'] || 'post_category' === $field['type']) {
-            $content = str_replace('class=\'small', 'class=\'custom-select-sm', $content);
-            $content = str_replace('class=\'medium', 'class=\'', $content);
-            $content = str_replace('class=\'large', 'class=\'custom-select-lg', $content);
-        }
-
-        // Select fields with multiselect option.
-        if ('multiselect' === $field['type']) {
-            $content = str_replace('custom-select', 'form-control', $content);
+            $content = str_replace('class=\'small form-select', 'class=\'form-select form-select-sm', $content);
+            $content = str_replace('class=\'medium form-select', 'class=\'form-select', $content);
+            $content = str_replace('class=\'large form-select', 'class=\'form-select form-select-lg', $content);
         }
 
         // Textarea fields.
@@ -105,123 +99,126 @@ if (class_exists('GFCommon')) {
             $content = str_replace('class=\'textarea small', 'class=\'form-control form-control-sm textarea', $content);
             $content = str_replace('class=\'textarea medium', 'class=\'form-control textarea', $content);
             $content = str_replace('class=\'textarea large', 'class=\'form-control form-control-lg textarea', $content);
+            $content = str_replace('rows=\'10\'', 'rows=\'4\'', $content);
         }
 
         // Checkbox fields.
         if ('checkbox' === $field['type'] || $field['inputType'] === 'checkbox') {
-            $content = str_replace('li class=\'', 'li class=\'custom-control custom-checkbox ', $content);
-            $content = str_replace('<input', '<input class=\'custom-control-input\'', $content);
-            $content = str_replace('<label for', '<label class=\'custom-control-label\' for', $content);
+            $content = str_replace('gchoice ', 'form-check gchoice ', $content);
+            $content = str_replace('<input class=\'gfield-choice-input', '<input class=\'form-check-input gfield-choice-input\'', $content);
+            $content = str_replace('<label for', '<label class=\'form-check-label\' for', $content);
+            $content = str_replace('type="button"', 'type="button" class="btn btn-primary btn-sm"', $content); // 'Other' option.
         }
 
         // Radio fields.
         if ('radio' === $field['type'] || $field['inputType'] === 'radio') {
-            $content = str_replace('li class=\'', 'li class=\'custom-control custom-radio ', $content);
-            $content = str_replace('<input name=', '<input class=\'custom-control-input\' name=', $content);
-            $content = str_replace('<label for', '<label class=\'custom-control-label\' for', $content);
-            $content = str_replace('<input id', '<input class=\'form-control form-control-sm\' id', $content); // 'Other' option field
+            $content = str_replace('gchoice ', 'gchoice form-check ', $content);
+            $content = str_replace('<input class=\'gfield-choice-input', '<input class=\'form-check-input gfield-choice-input\'', $content);
+            $content = str_replace('<label class=\'form-radio-label', '<label class=\'form-check-label form-radio-label', $content);
+            $content = str_replace('type=\'text\'', 'type=\'text\' class=\'form-control form-control-sm\'', $content); // 'Other' option.
         }
 
-        // Post Image fields.
+        // // Post Image meta data fields.
         if ('post_image' === $field['type']) {
             $content = str_replace('type=\'text\'', 'type=\'text\' class=\'form-control form-control-sm\'', $content);
         }
 
-        // Date & Time fields.
-        if ('date' === $field['type'] || 'time' === $field['type']) {
-            $content = str_replace('<select', '<select class=\'custom-select\'', $content);
+        // Date fields.
+        if ('date' === $field['type']) {
+            $content = str_replace('<select', '<select class=\'form-select\'', $content);
+            $content = str_replace('ginput_complex', 'row g-2 ginput_complex', $content);
+            $content = str_replace('ginput_container_date', 'col ginput_container_date', $content);
             $content = str_replace('type=\'number\'', 'type=\'number\' class=\'form-control\'', $content);
-            $content = str_replace('class=\'datepicker medium', 'class=\'form-control datepicker', $content);
+            $content = str_replace('label for=', 'label class="small text-muted" for=', $content);
+            $content = str_replace('class=\'datepicker', 'class=\'form-control datepicker', $content);
+        }
+
+        // Date & Time fields.
+        if ('time' === $field['type']) {
+            $content = str_replace('<select', '<select class=\'form-select\'', $content);
+            $content = str_replace('ginput_complex', 'row g-2 ginput_complex', $content);
+            $content = str_replace('ginput_container_time', 'col ginput_container_time', $content);
+            $content = str_replace('hour_minute_colon', 'd-none hour_minute_colon', $content);
+            $content = str_replace('type=\'number\'', 'type=\'number\' class=\'form-control\'', $content);
+            $content = str_replace('label class=\'hour_label', 'label class=\'small text-muted hour_label', $content);
+            $content = str_replace('label class=\'minute_label', 'label class=\'small text-muted minute_label', $content);
         }
 
         // Complex fields.
         if ('name' === $field['type'] || 'address' === $field['type'] || 'email' === $field['type'] || 'password' === $field['type']) {
-            $content = str_replace('class=\'ginput_complex', 'class=\'ginput_complex form-row', $content);
-            $content = str_replace('class=\'ginput_left', 'class=\'ginput_left col-6', $content);
-            $content = str_replace('class=\'ginput_right', 'class=\'ginput_right col-6', $content);
-            $content = str_replace('class=\'ginput_full', 'class=\'ginput_full col-12', $content);
+            $content = str_replace('class=\'ginput_complex', 'class=\'row g-2 ginput_complex', $content);
+            $content = str_replace('class=\'ginput_left', 'class=\'col-12 col-md-6 ginput_left', $content);
+            $content = str_replace('class=\'ginput_right', 'class=\'col-12 col-md-6 ginput_right', $content);
+            $content = str_replace('class=\'ginput_full', 'class=\'col-12 col-md-12 ginput_full', $content);
+        }
 
-            // Password fields.
-            if ('password' === $field['type']) {
-                $content = str_replace('type=\'password\'', 'type=\'password\' class=\'form-control\' ', $content);
-            }
+        // Password fields.
+        if ('password' === $field['type']) {
+            $content = str_replace('type=\'password\'', 'type=\'password\' class=\'form-control\' ', $content);
+            $content = str_replace('<label for', '<label class=\'small muted\' for', $content);
+        }
 
-            // Email fields.
-            if ('email' === $field['type']) {
-                $content = str_replace('<input class=\'', '<input class=\'form-control ', $content);
-                $content = str_replace('class=\'small', 'class=\'small form-control form-control-sm', $content);
-                $content = str_replace('class=\'medium', 'class=\'medium form-control', $content);
-                $content = str_replace('class=\'large', 'class=\'large form-control form-control-lg', $content);
-            }
+        // Email fields.
+        if ('email' === $field['type']) {
+            $content = str_replace('small\'   placeholder', 'form-control form-control-sm\'   placeholder', $content);
+            $content = str_replace('medium\'   placeholder', 'form-control\'   placeholder', $content);
+            $content = str_replace('large\'   placeholder', 'form-control form-control-lg\'   placeholder', $content);
+            $content = str_replace('<input class=\'\'', '<input class=\'form-control\'', $content); // email with confirm email
+            $content = str_replace('<label for', '<label class=\'small muted\' for', $content);
+        }
 
-            // Name & Address fields.
-            if ('name' === $field['type'] || 'address' === $field['type']) {
-                $content = str_replace('<input ', '<input class=\'form-control\' ', $content);
-                $content = str_replace('<select ', '<select class=\'custom-select\' ', $content);
-            }
+        // Name & Address fields.
+        if ('name' === $field['type'] || 'address' === $field['type']) {
+            $content = str_replace('class=\'name_', 'class=\'col name_', $content);
+            $content = str_replace('type=\'text\'', 'type=\'text\' class=\'form-control\'', $content);
+            $content = str_replace('<select ', '<select class=\'form-select\' ', $content);
+            $content = str_replace('label for=', 'label class=\'small text-muted\' for=', $content);
         }
 
         // Consent fields.
         if ('consent' === $field['type']) {
-            $content = str_replace('ginput_container_consent', 'ginput_container_consent custom-control custom-checkbox', $content);
-            $content = str_replace('gfield_consent_label', 'gfield_consent_label custom-control-label', $content);
-            $content = str_replace('type=\'checkbox\'', 'type=\'checkbox\' class=\'custom-control-input\' ', $content);
+            $content = str_replace('ginput_container_consent', 'form-check ginput_container_consent', $content);
+            $content = str_replace('gfield_consent_label', 'form-check-label gfield_consent_label', $content);
+            $content = str_replace('type=\'checkbox\'', 'type=\'checkbox\' class=\'form-check-input\' ', $content);
         }
 
         // List fields.
         if ('list' === $field['type']) {
-            $content = str_replace('type=\'text\'', 'type=\'text\' class=\'form-control\' ', $content);
+            $content = str_replace('type=\'text\'', 'type=\'text\' class=\'form-control\'', $content);
+            $content = str_replace('gfield_list_header\'', 'row gfield_list_header\'', $content);
+            $content = str_replace('gfield_list_header', 'row gfield_list_header', $content);
+            $content = str_replace('gfield_header_item"', 'col gfield_header_item"', $content);
+            $content = str_replace('gfield_header_item--icons"', 'col-1 gfield_header_item--icons"', $content);
+            $content = str_replace(' gfield_list_group\'', ' row gfield_list_group\'', $content);
+            $content = str_replace('gfield_list_group_item', 'col mb-2 gfield_list_group_item', $content);
+            $content = str_replace('gfield_list_icons', 'col-1 gfield_list_icons', $content);
         }
+
         // Fileupload fields. Add class 'preview' to the field to enable the image preview
         if ('fileupload' === $field['type'] || 'post_image' === $field['type']) {
             // Single file uploads
-            if (!is_admin() && false === $field['multipleFiles']) {
-                // Check if the field is required and create red asterix.
-                $required = ($field['isRequired']) ? '<span class=\'gfield_required\'>*</span>' : '';
-                // Add a div spanning the label and input with .custom-file
-                $content = str_replace('<label class=\'gfield_label\'', '<div class=\'ginput_container\'><div class=\'custom-file\'><label class=\'custom-file-label\'', $content);
-                // If Preview is enabled add an image without src.
-                if (strpos($field['cssClass'], 'preview') !== false) {
-                    $content .= '</div><img id=\'output_' . $form_id . '_' . $field['id'] . '\'></div>';
-                } else {
-                    $content .= '</div></div>';
-                }
-                // Add a new 'fake' label
-                $content = str_replace('<div class=\'ginput_container\'>', '<label class=\'gfield_label\'>' . $field['label'] . $required . '</label><div class=\'ginput_container\'>', $content);
-                // Add .custom-file-input class to the file-input
-                $content = str_replace('type=\'file\' class=\'medium\'', 'type=\'file\' class=\'custom-file-input\'', $content);
-                // Add javascript to show filename after upload.
-                $content .= '<script>
-                    document.getElementById(\'input_' . $form_id . '_' . $field['id'] . '\').addEventListener(\'change\', function (e) {
-                        var fileName = e.target.files[0].name;';
-                if ('post_image' === $field['type']) {
-                    $content .= 'var fileLabel = e.target.parentElement.parentElement.previousElementSibling;';
-                } else {
-                    $content .= 'var fileLabel = e.target.parentElement.previousElementSibling;';
-                }
-                $content .= 'fileLabel.innerText = fileName;';
-                // If Preview is enabled add javascript to show image preview.
-                if (strpos($field['cssClass'], 'preview') !== false) {
-                    $content .= 'var input = e.target;
-                        var reader = new FileReader();
-                        reader.onload = function () {
-                            var dataURL = reader.result;
-                            var output = document.getElementById(\'output_' . $form_id . '_' . $field['id'] . '\');
-                            output.src = dataURL;
-                            output.className = \'preview_img\';
-                        };
-                        reader.readAsDataURL(input.files[0]);';
-                }
-                $content .= '})
-                </script>';
+            $content = str_replace('type=\'file\' class=\'medium\'', 'type=\'file\' class=\'form-control\'', $content);
+            $content = str_replace('gform_fileupload_rules', 'small text-muted gform_fileupload_rules', $content);
+            $content = str_replace('validation_message', 'text-danger small list-unstyled validation_message', $content);
+            $content = str_replace('id=\'extensions_message', 'class=\'small text-muted\' id=\'extensions_message', $content);
+            $content = str_replace('label for=', 'label class=\'small text-muted\' for=', $content);
 
-                // Mutli file upload
-            } else {
+            // Mutli file upload
+            if (true === $field['multipleFiles']) {
                 $content = str_replace('class=\'button', 'class=\'btn btn-primary btn-sm', $content);
             }
         }
-        return $content;
 
+        // Product price.
+        if ('product' === $field['type']) {
+            $content = str_replace('ginput_product_price_label', 'small text-muted ginput_product_price_label', $content);
+            $content = str_replace('class=\'ginput_product_price\' id=\'ginput_base', 'class=\'form-control ginput_product_price\' id=\'ginput_base', $content);
+            $content = str_replace('class=\'ginput_quantity\'', 'class=\'form-control ginput_quantity\'', $content);
+            $content = str_replace('class=\'ginput_quantity_label\'', 'class=\'small ginput_quantity_label\'', $content);
+            $content = str_replace('class=\'ginput_product_price\'', 'class=\'text-success ginput_product_price\'', $content);
+        }
+
+        return $content;
     }, 10, 5);
 
     /** Change the main validation message. */
@@ -247,16 +244,21 @@ if (class_exists('GFCommon')) {
         return $button;
     }, 10, 2);
 
+    /** Change classes on Save & Continue Later button. */
+    add_filter('gform_savecontinue_link', function ($button, $form) {
+        $button = str_replace('class=\'gform_save_link', 'class=\'btn btn-outline-secondary gform_save_link', $button);
+        return $button;
+    }, 10, 2);
+
     /** Change classes on progressbars */
     add_filter('gform_progress_bar', function ($progress_bar, $form, $confirmation_message) {
-        $progress_bar = str_replace('progress_wrapper', 'progress_wrapper form-group', $progress_bar);
-        $progress_bar = str_replace('gf_progressbar', 'gf_progressbar progress', $progress_bar);
-        $progress_bar = str_replace('progress_percentage', 'progress_percentage progress-bar progress-bar-striped progress-bar-animated', $progress_bar);
-        $progress_bar = str_replace('percentbar_blue', 'percentbar_blue bg-primary', $progress_bar);
-        $progress_bar = str_replace('percentbar_gray', 'percentbar_gray bg-secondary', $progress_bar);
-        $progress_bar = str_replace('percentbar_green', 'percentbar_green bg-success', $progress_bar);
-        $progress_bar = str_replace('percentbar_orange', 'percentbar_orange bg-warning', $progress_bar);
-        $progress_bar = str_replace('percentbar_red', 'percentbar_red bg-danger', $progress_bar);
+        $progress_bar = str_replace('gf_progressbar ', 'progress gf_progressbar ', $progress_bar);
+        $progress_bar = str_replace('gf_progressbar_percentage', 'progress-bar progress-bar-striped progress-bar-animated progress_percentage', $progress_bar);
+        $progress_bar = str_replace('percentbar_blue', 'bg-primary percentbar_blue', $progress_bar);
+        $progress_bar = str_replace('percentbar_gray', 'bg-secondary percentbar_gray', $progress_bar);
+        $progress_bar = str_replace('percentbar_green', 'bg-success percentbar_green', $progress_bar);
+        $progress_bar = str_replace('percentbar_orange', 'bg-warning percentbar_orange', $progress_bar);
+        $progress_bar = str_replace('percentbar_red', 'bg-danger percentbar_red', $progress_bar);
         return $progress_bar;
     }, 10, 3);
 
