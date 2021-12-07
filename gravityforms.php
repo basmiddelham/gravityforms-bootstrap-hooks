@@ -79,6 +79,9 @@ if (class_exists('GFCommon')) {
         // Descriptions
         $content = str_replace('class=\'gfield_description', 'class=\'small text-muted gfield_description', $content);
 
+        // Validation message
+        $content = str_replace('class=\'small text-muted gfield_description validation_message', 'class=\'alert alert-warning p-1 small gfield_description validation_message', $content);
+
         // Sections
         $content = str_replace('class=\'gsection_description', 'class=\'gsection_description small text-muted', $content);
 
@@ -189,7 +192,7 @@ if (class_exists('GFCommon')) {
             $content = str_replace('gfield_list_header', 'row gfield_list_header', $content);
             $content = str_replace('gfield_header_item"', 'col gfield_header_item"', $content);
             $content = str_replace('gfield_header_item--icons"', 'col-1 gfield_header_item--icons"', $content);
-            $content = str_replace(' gfield_list_group\'', ' row gfield_list_group\'', $content);
+            $content = str_replace(' gfield_list_group\'', ' row g-3 gfield_list_group\'', $content);
             $content = str_replace('gfield_list_group_item', 'col mb-2 gfield_list_group_item', $content);
             $content = str_replace('gfield_list_icons', 'col-1 gfield_list_icons', $content);
         }
@@ -223,7 +226,7 @@ if (class_exists('GFCommon')) {
 
     /** Change the main validation message. */
     add_filter('gform_validation_message', function ($message, $form) {
-        return '<div class=\'validation_error alert alert-danger\'>' . esc_html__('There was a problem with your submission.', 'gravityforms') . ' ' . esc_html__('Errors have been highlighted below.', 'gravityforms') . '</div>'; // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+        return '<div class=\'validation_error\'>' . esc_html__('There was a problem with your submission.', 'gravityforms') . ' ' . esc_html__('Errors have been highlighted below.', 'gravityforms') . '</div>'; // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
     }, 10, 2);
 
     /** Change classes on Submit button. */
