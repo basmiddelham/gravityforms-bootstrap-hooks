@@ -108,7 +108,7 @@ if (class_exists('GFCommon')) {
         // Checkbox fields.
         if ('checkbox' === $field['type'] || $field['inputType'] === 'checkbox') {
             $content = str_replace('gchoice ', 'form-check gchoice ', $content);
-            $content = str_replace('<input class=\'gfield-choice-input', '<input class=\'form-check-input gfield-choice-input\'', $content);
+            $content = str_replace('<input class=\'gfield-choice-input', '<input class=\'form-check-input gfield-choice-input', $content);
             $content = str_replace('<label for', '<label class=\'form-check-label\' for', $content);
             $content = str_replace('type="button"', 'type="button" class="btn btn-primary btn-sm"', $content); // 'Other' option.
         }
