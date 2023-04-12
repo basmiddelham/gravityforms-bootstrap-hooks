@@ -169,9 +169,9 @@ if ( class_exists( 'GFCommon' ) ) {
 
 			// Email fields.
 			if ( 'email' === $field['type'] ) {
-				$content = str_replace( 'small\'   placeholder', 'form-control form-control-sm\'   placeholder', $content );
-				$content = str_replace( 'medium\'   placeholder', 'form-control\'   placeholder', $content );
-				$content = str_replace( 'large\'   placeholder', 'form-control form-control-lg\'   placeholder', $content );
+				$content = str_replace( 'small\'', 'form-control form-control-sm\'', $content );
+				$content = str_replace( 'medium\'', 'form-control\'', $content );
+				$content = str_replace( 'large\'', 'form-control form-control-lg\'', $content );
 				$content = str_replace( '<input class=\'\'', '<input class=\'form-control\'', $content ); // email with confirm email.
 				$content = str_replace( '<label for', '<label class=\'small muted\' for', $content );
 			}
