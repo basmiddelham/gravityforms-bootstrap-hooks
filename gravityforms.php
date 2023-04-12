@@ -17,41 +17,10 @@ if ( class_exists( 'GFCommon' ) ) {
 	/** Enable HTML5. */
 	add_filter( 'pre_option_rg_gforms_enable_html5', '__return_true' );
 
-	/** Enable the shortcode preview */
-	add_filter( 'gform_shortcode_preview_disabled', '__return_false' );
-
-	/** Disable Gravity Forms CSS in Admin and allow frontend styles in shortcode preview. */
-	remove_filter( 'tiny_mce_before_init', array( 'GFForms', 'modify_tiny_mce_4' ), 20 );
-
-	/** Style Gravity Forms preview pages. */
-	add_filter(
-		'gform_preview_styles',
-		function ( $styles, $form ) {
-			wp_register_style( 'gf_styles', get_stylesheet_directory_uri() . '/dist/css/styles.css', array(), '1.0' );
-			$styles = array( 'gf_styles' );
-			return $styles;
-		},
-		10,
-		2
-	);
-
-	// Autocomplete Attribute.
-	add_filter(
-		'gform_field_content',
-		function ( $field_content, $field ) {
-			if ( 'email' === $field->type ) {
-				return str_replace( 'type=', "autocomplete='email' type=", $field_content );
-			}
-			return $field_content;
-		},
-		10,
-		2
-	);
-
 	/** Modify the fields classes to Bootstrap classes. */
 	add_filter(
 		'gform_field_content',
-		function ( $content, $field, $value, $lead_id, $form_id ) {
+		function ( $content, $field ) {
 
 			// Exclude these fieldtypes for later customisation.
 			$exclude_formcontrol = array(
@@ -127,7 +96,7 @@ if ( class_exists( 'GFCommon' ) ) {
 				$content = str_replace( 'type=\'text\'', 'type=\'text\' class=\'form-control form-control-sm\'', $content ); // 'Other' option.
 			}
 
-			// // Post Image meta data fields.
+			// Post Image meta data fields.
 			if ( 'post_image' === $field['type'] ) {
 				$content = str_replace( 'type=\'text\'', 'type=\'text\' class=\'form-control form-control-sm\'', $content );
 			}
