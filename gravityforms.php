@@ -9,7 +9,14 @@
  * @link        https://github.com/MoshCat/gravityforms-bootstrap-hooks
  */
 
+/** Exit if accessed directly. */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( class_exists( 'GFCommon' ) ) {
+	/** Remove legend */
+	add_filter( 'gform_required_legend', '__return_empty_string' );
 
 	/** Disable Gravity Forms CSS. */
 	add_filter( 'pre_option_rg_gforms_disable_css', '__return_true' );
@@ -189,6 +196,7 @@ if ( class_exists( 'GFCommon' ) ) {
 
 			// Product price.
 			if ( 'product' === $field['type'] ) {
+				$content = str_replace( 'class=\'ginput_product_price ', 'class=\'form-control ginput_product_price ', $content );
 				$content = str_replace( 'ginput_product_price_label', 'small text-muted ginput_product_price_label', $content );
 				$content = str_replace( 'class=\'ginput_product_price\' id=\'ginput_base', 'class=\'form-control ginput_product_price\' id=\'ginput_base', $content );
 				$content = str_replace( 'class=\'ginput_quantity\'', 'class=\'form-control ginput_quantity\'', $content );
