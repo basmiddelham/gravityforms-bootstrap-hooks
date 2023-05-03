@@ -10,9 +10,9 @@ __Tested up to:__ WordPress 6.2, Gravity Forms 2.7.4
 - Lots of filters to add Bootstrap classes to fields.
 
 ## Usage
-Use these hooks together with [Gravity Forms Bootstrap styling](https://github.com/MoshCat/gravityforms-bootstrap-styling) for full functionality.
+Use these hooks together with [Gravity Forms Bootstrap styling](https://github.com/basmiddelham/gravityforms-bootstrap-styling) for full functionality.
 
-Test your styling using this Gravity Forms [kitchensink form](https://github.com/MoshCat/gravityforms-kitchensink).
+Test your styling using this Gravity Forms [kitchensink form](https://github.com/basmiddelham/gravityforms-kitchensink).
 
 Check out the [demo](https://demo.middelham.nl/gravity-forms-kitchensink/).
 
