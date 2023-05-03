@@ -204,6 +204,11 @@ if ( class_exists( 'GFCommon' ) ) {
 				$content = str_replace( 'class=\'ginput_product_price\'', 'class=\'text-success ginput_product_price\'', $content );
 			}
 
+			// Product total.
+			if ( 'total' === $field['type'] ) {
+				$content = str_replace( 'ginput_total', 'form-control ginput_total', $content );
+			}
+
 			return $content;
 		},
 		10,
