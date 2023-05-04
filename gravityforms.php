@@ -100,7 +100,7 @@ if ( class_exists( 'GFCommon' ) ) {
 				$content = str_replace( 'gchoice ', 'gchoice form-check ', $content );
 				$content = str_replace( '<input class=\'gfield-choice-input', '<input class=\'form-check-input gfield-choice-input\'', $content );
 				$content = str_replace( '<label class=\'form-radio-label', '<label class=\'form-check-label form-radio-label', $content );
-				$content = str_replace( 'type=\'text\'', 'type=\'text\' class=\'form-control form-control-sm\'', $content ); // 'Other' option.
+				$content = str_replace( 'gchoice_other_control', 'form-control form-control-sm', $content ); // 'Other' option.
 			}
 
 			// Post Image meta data fields.
