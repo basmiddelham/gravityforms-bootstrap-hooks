@@ -170,13 +170,7 @@ if ( class_exists( 'GFCommon' ) ) {
 			// List fields.
 			if ( 'list' === $field['type'] ) {
 				$content = str_replace( 'type=\'text\'', 'type=\'text\' class=\'form-control\'', $content );
-				$content = str_replace( 'gfield_list_header\'', 'row gfield_list_header\'', $content );
-				$content = str_replace( 'gfield_list_header', 'row gfield_list_header', $content );
-				$content = str_replace( 'gfield_header_item"', 'col gfield_header_item"', $content );
-				$content = str_replace( 'gfield_header_item--icons"', 'col-1 gfield_header_item--icons"', $content );
-				$content = str_replace( ' gfield_list_group\'', ' row g-3 gfield_list_group\'', $content );
-				$content = str_replace( 'gfield_list_group_item', 'col mb-2 gfield_list_group_item', $content );
-				$content = str_replace( 'gfield_list_icons', 'col-1 gfield_list_icons', $content );
+				$content = str_replace( 'gform-field-label', 'gform-field-label small', $content );
 			}
 
 			// Fileupload fields. Add class 'preview' to the field to enable the image preview.
