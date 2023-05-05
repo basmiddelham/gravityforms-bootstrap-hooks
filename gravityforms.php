@@ -136,7 +136,7 @@ if ( class_exists( 'GFCommon' ) ) {
 			// Date fields.
 			if ( 'date' === $field['type'] ) {
 				$content = str_replace( '<select', '<select class=\'form-select\'', $content );
-				$content = str_replace( 'ginput_complex', 'row g-2 ginput_complex', $content );
+				$content = str_replace( 'ginput_complex', 'row gx-2 ginput_complex', $content );
 				$content = str_replace( 'ginput_container_date', 'col ginput_container_date', $content );
 				$content = str_replace( 'type=\'number\'', 'type=\'number\' class=\'form-control\'', $content );
 				$content = str_replace( 'label for=', 'label class="small text-body-secondary" for=', $content );
@@ -146,7 +146,7 @@ if ( class_exists( 'GFCommon' ) ) {
 			// Time fields.
 			if ( 'time' === $field['type'] ) {
 				$content = str_replace( '<select', '<select class=\'form-select\'', $content );
-				$content = str_replace( 'ginput_complex', 'row g-2 ginput_complex', $content );
+				$content = str_replace( 'ginput_complex', 'row gx-2 ginput_complex', $content );
 				$content = str_replace( 'ginput_container_time', 'col ginput_container_time', $content );
 				$content = str_replace( 'hour_minute_colon', 'd-none hour_minute_colon', $content );
 				$content = str_replace( 'type=\'number\'', 'type=\'number\' class=\'form-control\'', $content );
@@ -156,10 +156,10 @@ if ( class_exists( 'GFCommon' ) ) {
 
 			// Complex fields.
 			if ( 'name' === $field['type'] || 'address' === $field['type'] || 'email' === $field['type'] || 'password' === $field['type'] ) {
-				$content = str_replace( 'class=\'ginput_complex', 'class=\'row g-2 ginput_complex', $content );
-				$content = str_replace( 'class=\'ginput_left', 'class=\'col-12 col-md-6 ginput_left', $content );
-				$content = str_replace( 'class=\'ginput_right', 'class=\'col-12 col-md-6 ginput_right', $content );
-				$content = str_replace( 'class=\'ginput_full', 'class=\'col-12 col-md-12 ginput_full', $content );
+				$content = str_replace( 'class=\'ginput_complex', 'class=\'row gx-2 ginput_complex', $content );
+				$content = str_replace( 'class=\'ginput_left', 'class=\'col-12 col-md-6 mb-2 ginput_left', $content );
+				$content = str_replace( 'class=\'ginput_right', 'class=\'col-12 col-md-6 mb-2 ginput_right', $content );
+				$content = str_replace( 'class=\'ginput_full', 'class=\'col-12 col-md-12 mb-2 ginput_full', $content );
 			}
 
 			// Password fields.
