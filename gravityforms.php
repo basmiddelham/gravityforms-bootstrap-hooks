@@ -28,16 +28,16 @@ if ( class_exists( 'GFCommon' ) ) {
 	// add_filter( 'gform_ip_address', '__return_empty_string' );
 
 	/** Register styles to be used on Gravity Forms preview pages. */
-	add_filter(
-		'gform_preview_styles',
-		function ( $styles ) {
-			wp_register_style( 'strt-stylesheet', get_template_directory_uri() . '/assets/dist/css/frontend.css', null, null );
-			$styles = array( 'strt-stylesheet' );
-			return $styles;
-		},
-		10,
-		2
-	);
+	// add_filter(
+	// 	'gform_preview_styles',
+	// 	function ( $styles ) {
+	// 		wp_register_style( 'mystylesheet', get_template_directory_uri() . '/style.css', null, null );
+	// 		$styles = array( 'mystylesheet' );
+	// 		return $styles;
+	// 	},
+	// 	10,
+	// 	2
+	// );
 
 	/** Add Gravity Forms capabilities To Editor role. */
 	add_action(
