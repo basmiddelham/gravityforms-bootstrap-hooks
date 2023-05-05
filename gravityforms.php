@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( class_exists( 'GFCommon' ) ) {
-	/** Remove legend */
+	/** Remove legend. */
 	add_filter( 'gform_required_legend', '__return_empty_string' );
 
 	/** Disable Gravity Forms CSS. */
@@ -23,6 +23,31 @@ if ( class_exists( 'GFCommon' ) ) {
 
 	/** Enable HTML5. */
 	add_filter( 'pre_option_rg_gforms_enable_html5', '__return_true' );
+
+	/** Prevent the IP address being saved. */
+	// add_filter( 'gform_ip_address', '__return_empty_string' );
+
+	/** Register styles to be used on Gravity Forms preview pages. */
+	add_filter(
+		'gform_preview_styles',
+		function ( $styles ) {
+			wp_register_style( 'strt-stylesheet', get_template_directory_uri() . '/assets/dist/css/frontend.css', null, null );
+			$styles = array( 'strt-stylesheet' );
+			return $styles;
+		},
+		10,
+		2
+	);
+
+	/** Add Gravity Forms capabilities To Editor role. */
+	add_action(
+		'init',
+		function () {
+			$role = get_role( 'editor' );
+			// $role->add_cap( 'gform_full_access' );
+			// $role->remove_cap('gform_full_access');
+		}
+	);
 
 	/** Modify the fields classes to Bootstrap classes. */
 	add_filter(

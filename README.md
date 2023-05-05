@@ -2,7 +2,7 @@
 Actions &amp; filters for using Gravity Forms in your Bootstrap 5 enabled theme.
 
 __Contributors:__ [Bas Middelham](https://github.com/basmiddelham)  
-__Requires:__ WordPress, Gravity Forms  
+__Requires:__ WordPress, Gravity Forms, Bootstrap 5.3.0-alpha3  
 __Tested up to:__ WordPress 6.2, Gravity Forms 2.7.4
 
 ## Features:
