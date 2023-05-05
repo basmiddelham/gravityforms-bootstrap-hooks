@@ -84,13 +84,13 @@ if ( class_exists( 'GFCommon' ) ) {
 			$content = str_replace( 'gfield_label', 'form-label gfield_label', $content );
 
 			// Descriptions.
-			$content = str_replace( 'class=\'gfield_description', 'class=\'small text-muted gfield_description', $content );
+			$content = str_replace( 'class=\'gfield_description', 'class=\'small text-body-secondary gfield_description', $content );
 
 			// Validation message.
-			$content = str_replace( 'class=\'small text-muted gfield_description validation_message', 'class=\'alert alert-warning p-1 small gfield_description validation_message', $content );
+			$content = str_replace( 'class=\'small text-body-secondary gfield_description validation_message', 'class=\'alert alert-warning p-1 small gfield_description validation_message', $content );
 
 			// Sections.
-			$content = str_replace( 'class=\'gsection_description', 'class=\'gsection_description small text-muted', $content );
+			$content = str_replace( 'class=\'gsection_description', 'class=\'gsection_description small text-body-secondary', $content );
 
 			// Number fields.
 			$content = str_replace( 'ginput_quantity ', 'form-control ginput_quantity ', $content );
@@ -139,19 +139,19 @@ if ( class_exists( 'GFCommon' ) ) {
 				$content = str_replace( 'ginput_complex', 'row g-2 ginput_complex', $content );
 				$content = str_replace( 'ginput_container_date', 'col ginput_container_date', $content );
 				$content = str_replace( 'type=\'number\'', 'type=\'number\' class=\'form-control\'', $content );
-				$content = str_replace( 'label for=', 'label class="small text-muted" for=', $content );
+				$content = str_replace( 'label for=', 'label class="small text-body-secondary" for=', $content );
 				$content = str_replace( 'class=\'datepicker', 'class=\'form-control datepicker', $content );
 			}
 
-			// Date & Time fields.
+			// Time fields.
 			if ( 'time' === $field['type'] ) {
 				$content = str_replace( '<select', '<select class=\'form-select\'', $content );
 				$content = str_replace( 'ginput_complex', 'row g-2 ginput_complex', $content );
 				$content = str_replace( 'ginput_container_time', 'col ginput_container_time', $content );
 				$content = str_replace( 'hour_minute_colon', 'd-none hour_minute_colon', $content );
 				$content = str_replace( 'type=\'number\'', 'type=\'number\' class=\'form-control\'', $content );
-				$content = str_replace( 'label class=\'hour_label', 'label class=\'small text-muted hour_label', $content );
-				$content = str_replace( 'label class=\'minute_label', 'label class=\'small text-muted minute_label', $content );
+				$content = str_replace( 'label class=\'hour_label', 'label class=\'small text-body-secondary hour_label', $content );
+				$content = str_replace( 'label class=\'minute_label', 'label class=\'small text-body-secondary minute_label', $content );
 			}
 
 			// Complex fields.
@@ -165,7 +165,7 @@ if ( class_exists( 'GFCommon' ) ) {
 			// Password fields.
 			if ( 'password' === $field['type'] ) {
 				$content = str_replace( 'type=\'password\'', 'type=\'password\' class=\'form-control\' ', $content );
-				$content = str_replace( '<label for', '<label class=\'small muted\' for', $content );
+				$content = str_replace( '<label for', '<label class=\'small text-body-secondary\' for', $content );
 			}
 
 			// Email fields.
@@ -174,7 +174,7 @@ if ( class_exists( 'GFCommon' ) ) {
 				$content = str_replace( 'medium\'', 'form-control\'', $content );
 				$content = str_replace( 'large\'', 'form-control form-control-lg\'', $content );
 				$content = str_replace( '<input class=\'\'', '<input class=\'form-control\'', $content ); // email with confirm email.
-				$content = str_replace( '<label for', '<label class=\'small muted\' for', $content );
+				$content = str_replace( '<label for', '<label class=\'small text-body-secondary\' for', $content );
 			}
 
 			// Name & Address fields.
@@ -182,7 +182,7 @@ if ( class_exists( 'GFCommon' ) ) {
 				$content = str_replace( 'class=\'name_', 'class=\'col name_', $content );
 				$content = str_replace( 'type=\'text\'', 'type=\'text\' class=\'form-control\'', $content );
 				$content = str_replace( '<select ', '<select class=\'form-select\' ', $content );
-				$content = str_replace( 'label for=', 'label class=\'small text-muted\' for=', $content );
+				$content = str_replace( 'label for=', 'label class=\'small text-body-secondary\' for=', $content );
 			}
 
 			// Consent fields.
@@ -202,24 +202,26 @@ if ( class_exists( 'GFCommon' ) ) {
 			if ( 'fileupload' === $field['type'] || 'post_image' === $field['type'] ) {
 				// Single file uploads.
 				$content = str_replace( 'type=\'file\' class=\'medium\'', 'type=\'file\' class=\'form-control\'', $content );
-				$content = str_replace( 'gform_fileupload_rules', 'small text-muted gform_fileupload_rules', $content );
-				$content = str_replace( 'validation_message', 'text-danger small list-unstyled validation_message', $content );
-				$content = str_replace( 'id=\'extensions_message', 'class=\'small text-muted\' id=\'extensions_message', $content );
-				$content = str_replace( 'label for=', 'label class=\'small text-muted\' for=', $content );
+				$content = str_replace( 'gform_fileupload_rules', 'small text-body-secondary gform_fileupload_rules', $content );
+				$content = str_replace( 'validation_message', 'list-unstyled validation_message', $content );
+				$content = str_replace( 'id=\'extensions_message', 'class=\'small text-body-secondary\' id=\'extensions_message', $content );
+				$content = str_replace( 'label for=', 'label class=\'small text-body-secondary\' for=', $content );
 
 				// Mutli file upload.
 				if ( true === $field['multipleFiles'] ) {
 					$content = str_replace( 'class=\'button', 'class=\'btn btn-primary btn-sm', $content );
+					$content = str_replace( 'gfield_description gfield_validation_message', 'gfield_description gfield_validation_message text-warning', $content );
 				}
 			}
 
 			// Product price.
 			if ( 'product' === $field['type'] ) {
 				$content = str_replace( 'class=\'ginput_product_price ', 'class=\'form-control ginput_product_price ', $content );
-				$content = str_replace( 'ginput_product_price_label', 'small text-muted ginput_product_price_label', $content );
+				$content = str_replace( 'ginput_product_price_label', 'small text-body-secondary ginput_product_price_label', $content );
 				$content = str_replace( 'class=\'ginput_product_price\' id=\'ginput_base', 'class=\'form-control ginput_product_price\' id=\'ginput_base', $content );
 				$content = str_replace( 'class=\'ginput_quantity\'', 'class=\'form-control ginput_quantity\'', $content );
 				$content = str_replace( 'class=\'ginput_quantity_label\'', 'class=\'small ginput_quantity_label\'', $content );
+				$content = str_replace( 'ginput_amount', 'ginput_amount form-control', $content );
 				$content = str_replace( 'class=\'ginput_product_price\'', 'class=\'text-success ginput_product_price\'', $content );
 			}
 
