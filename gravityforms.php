@@ -87,7 +87,7 @@ if ( class_exists( 'GFCommon' ) ) {
 			$content = str_replace( 'class=\'gfield_description', 'class=\'small text-body-secondary gfield_description', $content );
 
 			// Validation message.
-			$content = str_replace( 'class=\'small text-body-secondary gfield_description validation_message', 'class=\'alert alert-warning p-1 small gfield_description validation_message', $content );
+			$content = str_replace( 'class=\'small text-body-secondary gfield_description validation_message', 'class=\'alert alert-warning p-1 small text-body-secondary gfield_description validation_message', $content );
 
 			// Sections.
 			$content = str_replace( 'class=\'gsection_description', 'class=\'gsection_description small text-body-secondary', $content );
@@ -202,15 +202,15 @@ if ( class_exists( 'GFCommon' ) ) {
 			if ( 'fileupload' === $field['type'] || 'post_image' === $field['type'] ) {
 				// Single file uploads.
 				$content = str_replace( 'type=\'file\' class=\'medium\'', 'type=\'file\' class=\'form-control\'', $content );
-				$content = str_replace( 'gform_fileupload_rules', 'small text-body-secondary gform_fileupload_rules', $content );
-				$content = str_replace( 'validation_message', 'list-unstyled validation_message', $content );
 				$content = str_replace( 'id=\'extensions_message', 'class=\'small text-body-secondary\' id=\'extensions_message', $content );
 				$content = str_replace( 'label for=', 'label class=\'small text-body-secondary\' for=', $content );
 
 				// Mutli file upload.
 				if ( true === $field['multipleFiles'] ) {
+					$content = str_replace( 'class=\'gform_drop_area', 'class=\'bg-light p-3 text-center border gform_drop_area', $content );
+					$content = str_replace( 'class=\'gform_drop_instructions', 'class=\'d-block small gform_drop_instructions', $content );
+					$content = str_replace( 'validation_message', 'list-unstyled validation_message', $content );
 					$content = str_replace( 'class=\'button', 'class=\'btn btn-primary btn-sm', $content );
-					$content = str_replace( 'gfield_description gfield_validation_message', 'gfield_description gfield_validation_message text-warning', $content );
 				}
 			}
 
