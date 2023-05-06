@@ -25,19 +25,19 @@ if ( class_exists( 'GFCommon' ) ) {
 	add_filter( 'pre_option_rg_gforms_enable_html5', '__return_true' );
 
 	/** Prevent the IP address being saved. */
-	// add_filter( 'gform_ip_address', '__return_empty_string' );
+	add_filter( 'gform_ip_address', '__return_empty_string' );
 
 	/** Register styles to be used on Gravity Forms preview pages. */
-	// add_filter(
-	// 	'gform_preview_styles',
-	// 	function ( $styles ) {
-	// 		wp_register_style( 'mystylesheet', get_template_directory_uri() . '/style.css', null, null );
-	// 		$styles = array( 'mystylesheet' );
-	// 		return $styles;
-	// 	},
-	// 	10,
-	// 	2
-	// );
+	add_filter(
+		'gform_preview_styles',
+		function ( $styles ) {
+			wp_register_style( 'my_stylesheet', get_template_directory_uri() . '/assets/dist/css/frontend.css', null, '1.0' );
+			$styles = array( 'my_stylesheet' );
+			return $styles;
+		},
+		10,
+		2
+	);
 
 	/** Add Gravity Forms capabilities To Editor role. */
 	add_action(
@@ -81,15 +81,16 @@ if ( class_exists( 'GFCommon' ) ) {
 			}
 
 			// Labels.
-			$content = str_replace( 'gfield_label', 'form-label gfield_label', $content );
+			$content = str_replace( 'gfield_label', 'form-label fw-medium small gfield_label', $content );
 
 			// Descriptions.
 			$content = str_replace( 'class=\'gfield_description', 'class=\'small text-body-secondary gfield_description', $content );
 
 			// Validation message.
-			$content = str_replace( 'class=\'small text-body-secondary gfield_description validation_message', 'class=\'alert alert-warning p-1 small text-body-secondary gfield_description validation_message', $content );
+			$content = str_replace( 'class=\'small text-body-secondary gfield_description validation_message', 'class=\'alert alert-warning p-1 my-1 small text-body-secondary gfield_description validation_message', $content );
 
 			// Sections.
+			$content = str_replace( 'gsection_title', 'mt-2 pb-1 mb-1 border-bottom gsection_title', $content );
 			$content = str_replace( 'class=\'gsection_description', 'class=\'gsection_description small text-body-secondary', $content );
 
 			// Number fields.
@@ -112,20 +113,14 @@ if ( class_exists( 'GFCommon' ) ) {
 				$content = str_replace( 'rows=\'10\'', 'rows=\'4\'', $content );
 			}
 
-			// Checkbox fields.
-			if ( 'checkbox' === $field['type'] || 'checkbox' === $field['inputType'] ) {
+			// Checkbox & Radio fields.
+			if ( 'checkbox' === $field['type'] || 'radio' === $field['type'] || 'checkbox' === $field['inputType'] || 'radio' === $field['inputType'] ) {
 				$content = str_replace( 'gchoice ', 'form-check gchoice ', $content );
 				$content = str_replace( '<input class=\'gfield-choice-input', '<input class=\'form-check-input gfield-choice-input', $content );
-				$content = str_replace( '<label for', '<label class=\'form-check-label\' for', $content );
-				$content = str_replace( 'type="button"', 'type="button" class="btn btn-primary btn-sm"', $content ); // 'Other' option.
-			}
-
-			// Radio fields.
-			if ( 'radio' === $field['type'] || 'radio' === $field['inputType'] ) {
-				$content = str_replace( 'gchoice ', 'gchoice form-check ', $content );
-				$content = str_replace( '<input class=\'gfield-choice-input', '<input class=\'form-check-input gfield-choice-input\'', $content );
-				$content = str_replace( '<label class=\'form-radio-label', '<label class=\'form-check-label form-radio-label', $content );
-				$content = str_replace( 'gchoice_other_control', 'form-control form-control-sm', $content ); // 'Other' option.
+				$content = str_replace( '<label for', '<label class=\'form-check-label\' for', $content ); // Checkbox label.
+				$content = str_replace( 'gform-field-label', 'form-check-label gform-field-label', $content ); // Radio label.
+				$content = str_replace( 'type="button"', 'type="button" class="btn btn-secondary btn-sm"', $content ); // Checkbox 'Select All' option.
+				$content = str_replace( 'gchoice_other_control', 'form-control form-control-sm', $content ); // Radio 'Other' option.
 			}
 
 			// Post Image meta data fields.
@@ -151,7 +146,7 @@ if ( class_exists( 'GFCommon' ) ) {
 				$content = str_replace( 'hour_minute_colon', 'd-none hour_minute_colon', $content );
 				$content = str_replace( 'type=\'number\'', 'type=\'number\' class=\'form-control\'', $content );
 				$content = str_replace( 'label class=\'hour_label', 'label class=\'small text-body-secondary hour_label', $content );
-				$content = str_replace( 'label class=\'minute_label', 'label class=\'small text-body-secondary minute_label', $content );
+				$content = str_replace( 'gform-field-label', 'small text-body-secondary gform-field-label', $content );
 			}
 
 			// Complex fields.
@@ -160,12 +155,6 @@ if ( class_exists( 'GFCommon' ) ) {
 				$content = str_replace( 'class=\'ginput_left', 'class=\'col-12 col-md-6 mb-2 ginput_left', $content );
 				$content = str_replace( 'class=\'ginput_right', 'class=\'col-12 col-md-6 mb-2 ginput_right', $content );
 				$content = str_replace( 'class=\'ginput_full', 'class=\'col-12 col-md-12 mb-2 ginput_full', $content );
-			}
-
-			// Password fields.
-			if ( 'password' === $field['type'] ) {
-				$content = str_replace( 'type=\'password\'', 'type=\'password\' class=\'form-control\' ', $content );
-				$content = str_replace( '<label for', '<label class=\'small text-body-secondary\' for', $content );
 			}
 
 			// Email fields.
@@ -239,7 +228,7 @@ if ( class_exists( 'GFCommon' ) ) {
 	/** Change the main validation message. */
 	add_filter(
 		'gform_validation_message',
-		function ( $message, $form ) {
+		function () {
 			return '<div class=\'validation_error\'>' . esc_html__( 'There was a problem with your submission.', 'gravityforms' ) . ' ' . esc_html__( 'Errors have been highlighted below.', 'gravityforms' ) . '</div>'; // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 		},
 		10,
@@ -249,7 +238,7 @@ if ( class_exists( 'GFCommon' ) ) {
 	/** Change classes on Submit button. */
 	add_filter(
 		'gform_submit_button',
-		function ( $button, $form ) {
+		function ( $button ) {
 			$button = str_replace( 'class=\'gform_button', 'class=\'gform_button btn btn-primary', $button );
 			return $button;
 		},
@@ -260,8 +249,8 @@ if ( class_exists( 'GFCommon' ) ) {
 	/** Change classes on Next button. */
 	add_filter(
 		'gform_next_button',
-		function ( $button, $form ) {
-			$button = str_replace( 'class=\'gform_next_button', 'class=\'gform_next_button btn btn-secondary', $button );
+		function ( $button ) {
+			$button = str_replace( 'class=\'gform_next_button', 'class=\'gform_next_button btn btn-primary', $button );
 			return $button;
 		},
 		10,
@@ -271,8 +260,8 @@ if ( class_exists( 'GFCommon' ) ) {
 	/** Change classes on Previous button. */
 	add_filter(
 		'gform_previous_button',
-		function ( $button, $form ) {
-			$button = str_replace( 'class=\'gform_previous_button', 'class=\'gform_previous_button btn btn-outline-secondary', $button );
+		function ( $button ) {
+			$button = str_replace( 'class=\'gform_previous_button', 'class=\'gform_previous_button btn btn-outline-primary', $button );
 			return $button;
 		},
 		10,
@@ -282,7 +271,7 @@ if ( class_exists( 'GFCommon' ) ) {
 	/** Change classes on Save & Continue Later button. */
 	add_filter(
 		'gform_savecontinue_link',
-		function ( $button, $form ) {
+		function ( $button ) {
 			$button = str_replace( 'class=\'gform_save_link', 'class=\'btn btn-outline-secondary gform_save_link', $button );
 			return $button;
 		},
@@ -293,7 +282,9 @@ if ( class_exists( 'GFCommon' ) ) {
 	/** Change classes on progressbars */
 	add_filter(
 		'gform_progress_bar',
-		function ( $progress_bar, $form, $confirmation_message ) {
+		function ( $progress_bar ) {
+			$progress_bar = str_replace( 'gf_progressbar_wrapper', 'gf_progressbar_wrapper mb-3', $progress_bar );
+			$progress_bar = str_replace( 'gf_progressbar_title', 'small text-body-secondary text-uppercase mb-1 gf_progressbar_title mb-1', $progress_bar );
 			$progress_bar = str_replace( 'gf_progressbar ', 'progress gf_progressbar ', $progress_bar );
 			$progress_bar = str_replace( 'gf_progressbar_percentage', 'progress-bar progress-bar-striped progress-bar-animated progress_percentage', $progress_bar );
 			$progress_bar = str_replace( 'percentbar_blue', 'bg-primary percentbar_blue', $progress_bar );
