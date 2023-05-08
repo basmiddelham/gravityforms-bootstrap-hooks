@@ -149,7 +149,7 @@ if ( class_exists( 'GFCommon' ) ) {
 				$content = str_replace( 'ginput_container_consent', 'ginput_container_consent form-check', $content );
 				$content = str_replace( 'type=\'checkbox\'', 'type=\'checkbox\' class=\'form-check-input\' ', $content );
 				$content = str_replace( 'gfield_consent_label', 'gfield_consent_label form-check-label', $content );
-				$content = str_replace( 'class=\'gfield_description', 'style=\' max-height: 100px;\' class=\'gfield_description border mt-1 p-1 overflow-y-auto', $content );
+				$content = str_replace( ' gfield_consent_description\'', ' gfield_consent_description border mt-1 p-1 overflow-y-auto\' style=\' max-height: 100px;\'', $content );
 			}
 
 			// List fields.
@@ -276,7 +276,7 @@ if ( class_exists( 'GFCommon' ) ) {
 	}
 
 	/**
-	 * Reset the Gavity Forms widths classes in the form editor so only column layout appears.
+	 * Reset the Gravity Forms widths classes in the form editor so only column layout appears.
 	 */
 	function strt_reset_sizes() {
 		echo '<style>
