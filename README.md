@@ -1,4 +1,4 @@
-# Gravity Forms Bootstrap Hooks
+# Gravity Forms Bootstrap 5 Hooks
 Actions &amp; filters for using Gravity Forms in your Bootstrap 5 enabled theme.
 
 __Contributors:__ [Bas Middelham](https://github.com/basmiddelham)  
