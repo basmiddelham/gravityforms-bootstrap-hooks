@@ -6,7 +6,7 @@
  *
  * @package     WordPress
  * @subpackage  GravityForms
- * @link        https://github.com/MoshCat/gravityforms-bootstrap-hooks
+ * @link        https://github.com/basmiddelham/gravityforms-bootstrap-hooks
  */
 
 /** Exit if accessed directly. */
