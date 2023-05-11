@@ -14,7 +14,7 @@ Use these hooks together with [Gravity Forms Bootstrap styling](https://github.c
 
 Test your styling using this Gravity Forms [kitchensink form](https://github.com/basmiddelham/gravityforms-kitchensink).
 
-Check out the [demo](https://demo.middelham.nl/gravity-forms-kitchensink/).
+Check out the [demo](https://demo.middelham.nl/gravity-forms-bootstrap-5).
 
 ## License
 MIT License
