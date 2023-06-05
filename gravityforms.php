@@ -14,10 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'GFForms' ) ) {
-	die();
-}
-
 /**
  * Reset the Gravity Forms width classes in the form editor so only the column layout appears.
  */
