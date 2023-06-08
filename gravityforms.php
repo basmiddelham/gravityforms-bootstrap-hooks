@@ -92,7 +92,7 @@ if ( ! is_admin() ) {
 	 * @link https://docs.gravityforms.com/gform_field_container/
 	 */
 	function strt_field_container( $field_container ) {
-		$field_container = str_replace( 'class="gfield', 'class="gfield mb-2', $field_container );
+		$field_container = str_replace( 'class="gfield', 'class="gfield mb-4', $field_container );
 		$field_container = str_replace( 'gfield--width-quarter', 'gfield--width-quarter col-sm-6 col-md-3', $field_container );
 		$field_container = str_replace( 'gfield--width-third', 'gfield--width-third col-md-4', $field_container );
 		$field_container = str_replace( 'gfield--width-five-twelfths', 'gfield--width-five-twelfths col-md-5', $field_container );
