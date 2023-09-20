@@ -46,9 +46,6 @@ function strt_add_gf_capabilities() {
 }
 add_action( 'init', 'strt_add_gf_capabilities' );
 
-/** Remove legend. */
-add_filter( 'gform_required_legend', '__return_empty_string' );
-
 /**
  * Only apply on frontend
  */
@@ -60,6 +57,11 @@ if ( ! is_admin() ) {
 	/** Enable HTML5. */
 	add_filter( 'pre_option_rg_gforms_enable_html5', '__return_true' );
 
+	/** Dont jump to anchor after confirmation. */
+	add_filter( 'gform_confirmation_anchor', '__return_false' );
+
+	/** Remove legend. */
+	add_filter( 'gform_required_legend', '__return_empty_string' );
 	/**
 	 * Register styles to be used on Gravity Forms preview pages.
 	 *
@@ -340,7 +342,8 @@ if ( ! is_admin() ) {
 	 * @param string $message The validation message.
 	 */
 	function strt_validation_message( $message ) {
-		$message = str_replace( 'h2', 'h4', $message );
+		$message = str_replace( 'h2', 'p', $message );
+		$message = str_replace( 'gform_submission_error', 'mb-0 gform_submission_error', $message );
 		return $message;
 	}
 	add_filter( 'gform_validation_message', 'strt_validation_message', 10, 2 );
